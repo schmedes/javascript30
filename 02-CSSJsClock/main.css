@@ -3,6 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
+html {
+    font-family: Arial, Helvetica, sans-serif;
+}
 main {
     display: flex;
     align-items: center;
@@ -21,8 +24,21 @@ main {
 .hand {
     position: absolute;
     top: 50%;
-    width: 125px;
-    border-bottom: 2px solid black;
+    width: 50%;
+    height: 2px;
+    background-color: black;
     transform-origin: 100%;
     transform: rotate(30deg);
+}
+.second:before {
+    content: "seconds";
+    padding-left: 10px;
+}
+.minute:before {
+    content: "minutes";
+    padding-left: 10px;
+}
+.hour:after {
+    content: "hours";
+    padding-left: 10px;
 }
