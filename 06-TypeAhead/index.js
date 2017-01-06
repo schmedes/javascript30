@@ -7,20 +7,19 @@ const buildListItem = name => {
     ListItem.innerHTML = `${name.city} - ${name.state}`;
     return ListItem;
 }
+const fetchData = datalink => {
+    return fetch(endpoint)
+           .then(response => response.json());
+}
 
-const showSuggestions = event => {
+const showSuggestions = async event => {
     console.log('called');
     const value = event.target.value.toUpperCase();
     if(value.length < 2) return;
-    const hits = fetch(endpoint)
-                .then(response => response.json())
-                .then(json => json.filter( el => el.city.toUpperCase().includes(value) || el.state.toUpperCase().includes(value)))
-                .then(el => {
-                    suggestions.innerHTML = "";
-                    el.map(data => {
-                        suggestions.appendChild(buildListItem(data));
-                    })
-                });
+    const hits = await fetchData(endpoint);
+    suggestions.innerHTML = "";
+    hits.filter( el => el.city.toUpperCase().includes(value) || el.state.toUpperCase().includes(value))
+        .map(data => suggestions.appendChild(buildListItem(data)))
 }
 
 document.querySelector('.search').addEventListener('input',(e)=> showSuggestions(e));
