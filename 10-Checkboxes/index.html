@@ -90,6 +90,29 @@
   </div>
 
 <script>
+  const checkbox = Array.from(document.querySelectorAll('input[type="checkbox"]'));
+  const getCheckedIndex = checkBoxes => {
+      return checkBoxes.reduce((prev, el, i) =>{
+          return el.checked ? (prev.push(i), prev) : prev;
+      }, []);
+  }
+  const getClosestNumber = (number, arr) => {
+      return arr.reduce( (prev, el)=> el < number ? el : prev, null);
+  }
+
+  const checkBoxesInBetween = (event, boxIndex) => {
+      if(event.shiftKey) {
+          const closestLastChecked = getClosestNumber(boxIndex, getCheckedIndex(checkbox));
+          if(closestLastChecked !== null) {
+            for(let checkboxIterator = closestLastChecked; checkboxIterator < boxIndex; checkboxIterator++) {
+                checkbox[checkboxIterator].setAttribute('checked', 'true');
+            }
+          }
+      }
+
+  }
+  checkbox.map((el, i) => el.addEventListener('click', (e)=> checkBoxesInBetween(e, i)));
+
 </script>
 </body>
 </html>
