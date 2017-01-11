@@ -1,24 +1,24 @@
 const videoPlayer = (videoDOM) =>({
+    DOM: videoDOM,
     setVolume: (x)=> videoDOM.volume = x,
     setSpeed: (x)=> videoDOM.playbackRate = x,
     playPause: ()=> videoDOM.paused ? videoDOM.play() : videoDOM.pause(),
     skip: (x)=> videoDOM.currentTime += x,
-    getProgress: ()=> ({current: videoDOM.currentTime,
-                        length: videoDOM.duration
-    }), 
+    updateProgress: (domNode) => {
+          domNode.style.flexBasis = `${(videoDOM.currentTime/videoDOM.duration)*100}%`;
+        },
+    buttonUpdate: (domNode) => {
+        domNode.textContent = this.paused ? '►' : '❚ ❚';
+    }
 });
 
-const updateProgress = (domNode, v) => {
-    return setInterval(()=>{
-        if(!v.paused) {
-          const {current, length} = v.getProgress();
-          domNode.innerHTML = `${current}/${length}`;
-        }
-    }, 1000)
-}
+
 
 const video = videoPlayer(document.querySelector('video'));
-updateProgress(document.querySelector('.progress__filled'), video);
+video.DOM.addEventListener('timeupdate',()=> video.updateProgress(document.querySelector('.progress__filled')));
+video.DOM.addEventListener('click', video.playPause);
+video.DOM.addEventListener('play', ()=> video.buttonUpdate(document.querySelector('.toggle')));
+video.DOM.addEventListener('pause', ()=> video.buttonUpdate(document.querySelector('.toggle')));
 
 document.querySelector('.player__button').addEventListener('click', video.playPause);
 document.querySelector('input[name="volume"]').addEventListener('change', (e)=> video.setVolume(e.target.value));
