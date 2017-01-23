@@ -56,14 +56,14 @@
     }
   }
 
-  const setOption = (event) => {
-    speech[event.target.name] = event.target.value;
+  const setOption = (eventTarget) => {
+    speech[eventTarget.name] = eventTarget.value;
     toggleSpeaking(false);
   }
 
   speechSynthesis.addEventListener('voiceschanged', getAvailableVoices);
   dropdown.addEventListener('change', setVoice);
-  options.forEach(option => option.addEventListener('change', setOption));
+  options.forEach(option => option.addEventListener('change',(e)=> setOption(event.target)));
   speakButton.addEventListener('click', toggleSpeaking);
   stopButton.addEventListener('click', () => toggleSpeaking(false));
 </script>
