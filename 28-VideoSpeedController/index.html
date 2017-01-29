@@ -17,13 +17,14 @@
   const video = document.querySelector('.flex');
   const speed = document.querySelector('.speed')
   const speedbar = document.querySelector('.speed-bar');
-
+  const {height: speedHeight} = speed.getBoundingClientRect();
 
   const handleMove = e => {
       const position = e.pageY - e.target.offsetTop;
-      const percent = position / e.target.offsetHeight;
+      const percent = position / speedHeight;
       console.log(percent);
-      speedbar.style.height = `${Math.round(percent*100)}%`;
+      if(percent > 1 ) return;
+      speedbar.style.height = `${position}px`;
       const playbackRate = percent * (4.0 - 0.4) + 0.4;
       video.playbackRate = playbackRate;
       speedbar.textContent = playbackRate.toFixed(2) + 'x';

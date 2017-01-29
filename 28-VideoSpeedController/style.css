@@ -16,8 +16,7 @@ video {
 }
 
 .speed {
-  background:#efefef;
-  height: 40vh;
+    background-color: #efefef;
   flex:1;
   display:flex;
   align-items:flex-start;
